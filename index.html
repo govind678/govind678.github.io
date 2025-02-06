@@ -10,6 +10,30 @@
     <title>Govinda Ram Pingali</title>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* Full-page Background */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('background.jpeg') no-repeat center center/cover;
+            filter: blur(5px);
+            z-index: -2; /* Keeps it behind other content */
+        }
+
+        /* Dark Overlay */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Darken effect */
+            z-index: -1; /* Sits above the blurred background */
+        }
+
+        /* Main Styling */
         body {
             color: #bcbcbc;
             font-family: 'Raleway', sans-serif;
@@ -21,18 +45,20 @@
             height: 100vh;
             margin: 0;
             background-color: #020202;
+            overflow: hidden;
         }
-        h1, h2 {
+
+        h1 {
+            color: #e0e0e0;
+            font-size: 3em;
+            position: relative;
+            z-index: 1; /* Ensures text appears above overlays */
             margin: 10px;
-        }
-        .content {
-            color: #bcbcbc;
         }
         .content p {
             margin-bottom: 5px;
         }
         .content a {
-            color: #bcbcbc;
             text-decoration: none;
         }
         .content a:hover {
@@ -40,88 +66,43 @@
         }
         .title {
             font-size: 3em;
-            color: #797979;
+            color: #A0A0A0;
+            color: rgba(255, 255, 255, 0.4);
         }
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+        .music {
+            color: #EDFDFD;
+            color: rgba(237, 253, 253, 0.75);
+        }
+        .music a {
+            color: #EDFDFD;
+            color: rgba(237, 253, 253, 0.75);
+        }
+        .farming {
+            color: #EDE1CD;
+            color: rgba(237, 225, 205, 0.75);
+        }
+        .farming a {
+            color: #EDE1CD;
+            color: rgba(237, 225, 205, 0.75);
         }
     </style>
 </head>
 <body>
+    <div class="background"></div>
+    <div class="overlay"></div>
+
     <h1 class="title">Govinda Ram Pingali</h1>
     <br>
     <div class="content">
-        <p>I make music as 'This Ego'. Check out my SoundCloud:</p>
-        <p><a href="https://soundcloud.com/this-ego" target="_blank" aria-label="Visit This Ego on SoundCloud">https://soundcloud.com/this-ego</a></p>
+        <div class="music">
+            <p>I make music as 'This Ego'. Check out my SoundCloud:</p>
+            <p><a href="https://soundcloud.com/this-ego" target="_blank" aria-label="Visit This Ego on SoundCloud">https://soundcloud.com/this-ego</a></p>
+        </div>
         <p><br></p>
-        <p>I am interested in Permaculture. Check out our farm in South India:</p>
-        <p><a href="https://www.pgr.earth" target="_blank" aria-label="Visit PGR Earth">https://www.pgr.earth</a></p>
+        <div class="farming">
+            <p>I am interested in Permaculture. Check out our farm in South India:</p>
+            <p><a href="https://www.pgr.earth" target="_blank" aria-label="Visit PGR Farm Website">https://www.pgr.earth</a></p>
+        </div>
     </div>
-    <canvas id="animationCanvas"></canvas>
-    <script>
-        const canvas = document.getElementById('animationCanvas');
-        const ctx = canvas.getContext('2d');
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        class Circle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = 0;
-                this.radius = Math.random() * 5 + 5;
-                this.dy = 1;
-                this.bounces = 0;
-                this.gravity = 0.1;
-                this.damping = 0.6;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(255,255,255,0.5)';
-                ctx.fill();
-            }
-            update() {
-                this.dy += this.gravity;
-                this.y += this.dy;
-                
-                if (this.y + this.radius >= canvas.height) {
-                    this.y = canvas.height - this.radius;
-                    this.dy *= -this.damping;
-                    this.bounces++;
-                    this.radius *= 0.7;
-                }
-                
-                if (this.bounces >= 3) {
-                    return false;
-                }
-                
-                this.draw();
-                return true;
-            }
-        }
-
-        let circles = [];
-        function spawnCircle() {
-            circles.push(new Circle());
-        }
-        setInterval(spawnCircle, 500);
-
-        function animate() {
-            requestAnimationFrame(animate);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            circles = circles.filter(circle => circle.update());
-        }
-        animate();
-    </script>
 </body>
 </html>
